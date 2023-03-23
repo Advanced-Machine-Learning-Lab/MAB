@@ -3,7 +3,7 @@ import numpy as np
 
 class BaseAgent:
 
-    def __init__(self, arm_number, agent_number) -> None:
+    def __init__(self, arm_number: int, agent_number: int) -> None:
         self.arm_number = arm_number
         self.agent_number = agent_number
         self.arm_mean = np.zeros(self.arm_number, dtype=np.float64)

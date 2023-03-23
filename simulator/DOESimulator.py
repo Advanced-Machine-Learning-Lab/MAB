@@ -1,15 +1,15 @@
 import numpy as np
-from .Simulator import BaseSimulator
-
+from simulator import BaseSimulator
+from communication import DOECommunication
 
 class DOESimulator(BaseSimulator):
     # 传入agent、arms和policy均为实例的引用
-    def __init__(self, agents, arms, policies, communication, T, alpha, beta, delta) -> None:
+    def __init__(self, agents: list, arms: list, policies: list, communication: DOECommunication, T: int, alpha: float, beta: float, delta: float) -> None:
         super().__init__(agents, arms, policies, communication, T)
         self.alpha = alpha
         self.beta = beta
         self.delta = delta
-        self.nt_of_arms = np.zeros(self.arms_number) #
+        self.nt_of_arms = np.zeros(self.arms_number)  # pull arm的次数
         self.ei_last = np.array(
             [self.alpha * np.sqrt(np.log2(2.0 / self.delta) / (2.0 * self.agent_number)) for _ in range(self.arms_number)])
         self.common_means = np.zeros(self.arms_number)

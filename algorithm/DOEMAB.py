@@ -1,14 +1,14 @@
-from agent.DOEAgent import DOEAgent
-from policy.DOEPolicy import DOEPolicy
-from arm.arm import BanditArmFactory
-from simulator.DOESimulator import DOESimulator
-from communication.DOECommunication import DOECommunication
+from agent import DOEAgent
+from policy import DOEPolicy
+from arm import BanditArmFactory
+from simulator import DOESimulator
+from communication import DOECommunication
 
 import numpy as np
 
 
 class DOEMAB:
-    def __init__(self, simulation_times, agent_number, arm_number, T, alpha, beta, delta) -> None:
+    def __init__(self, simulation_times: int, agent_number: int, arm_number: int, T: int, alpha: float, beta: float, delta: float) -> None:
         self.simulation_times = simulation_times
         self.agent_number = agent_number
         self.arm_number = arm_number
@@ -53,7 +53,7 @@ class DOEMAB:
                 if t % 1000 == 0:
                     print(f"com:{communication_times}, "
                           f"group_regret:{group_regrets[-1]}, "
-                          f"candidate_set:{candidate_set} sample_mean:{sample_arm_mean}")
+                          f"candidate_set:{candidate_set}")
             group_reward_avg.append(group_regrets)
             ind_rew_ave.append(ind_regrets)
             self.reset()

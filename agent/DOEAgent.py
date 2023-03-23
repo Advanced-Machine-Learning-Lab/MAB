@@ -1,9 +1,9 @@
 import numpy as np
-from .Agent import BaseAgent
+from agent import BaseAgent
 
 
 class DOEAgent(BaseAgent):
-    def __init__(self, arm_number, agent_number) -> None:
+    def __init__(self, arm_number: int, agent_number: int) -> None:
         super().__init__(arm_number, agent_number)
 
     # 更新agent_j自身状态

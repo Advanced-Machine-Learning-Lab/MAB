@@ -1,11 +1,11 @@
 import numpy as np
 
-from .Policy import BasePolicy
-from agent.DOEAgent import DOEAgent
+from policy import BasePolicy
+from agent import DOEAgent
 
 
 class DOEPolicy(BasePolicy):
-    def __init__(self, agent, arm_number) -> None:
+    def __init__(self, agent: DOEAgent, arm_number: int) -> None:
         super().__init__(agent, arm_number)
         self.candidate_set = np.ones(self.arm_number)
         self.index = 0

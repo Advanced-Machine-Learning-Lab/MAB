@@ -1,5 +1,5 @@
 class Communication:
-    def __init__(self, agents) -> None:
+    def __init__(self, agents: list) -> None:
         self.agents = agents
         self.agent_number = len(self.agents)
 

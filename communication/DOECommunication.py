@@ -1,22 +1,21 @@
-from .Communication import Communication
-from agent.DOEAgent import DOEAgent
+import numpy as np
+
+from communication import Communication
 
 
 class DOECommunication(Communication):
-    def __init__(self, agents) -> None:
+    def __init__(self, agents: list) -> None:
         super().__init__(agents)
 
     def run(self, arm_i):
         sn_total = 0.0
         rw_total = 0.0
-        communication_times = 0
         for j in range(self.agent_number):
             sn_j = self.agents[j].get_sn_of_agent_arm(j, arm_i)  # agent_j sample arm_i的次数
             rw_j = self.agents[j].get_rw_of_agent_arm(j, arm_i)  # agent_j 在arm_i上的reward
             for j_prime in range(self.agent_number):
                 if j == j_prime:
                     continue
-                communication_times += 1
                 sn_jp = self.agents[j_prime].get_sn_of_agent_arm(j_prime, arm_i)  # agent_jp sample arm_i的次数
                 rw_jp = self.agents[j_prime].get_rw_of_agent_arm(j_prime, arm_i)  # agent_jp 在arm_i上的reward
 
@@ -31,4 +30,4 @@ class DOECommunication(Communication):
             for j_prime in range(self.agent_number):
                 self.agents[j].update_mean_of_agent(j_prime, arm_i)
 
-        return communication_times, common_mean
+        return len(self.agents), common_mean

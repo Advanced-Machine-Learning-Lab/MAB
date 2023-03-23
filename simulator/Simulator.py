@@ -2,11 +2,12 @@
 Simulator的作用是整合静态的资源，比如 agent、arm和policy
 Simulator内部进行运算，返回时序信息
 """
+from communication import Communication
 
 
 class BaseSimulator(object):
     # 传入agent、arms和policy均为实例的引用
-    def __init__(self, agents, arms, policies, communication, T) -> None:
+    def __init__(self, agents: list, arms: list, policies: list, communication: Communication, T: int) -> None:
         self.agents = agents
         self.arms = arms
         self.policies = policies
