@@ -13,10 +13,6 @@
       <list>
         <option value="$MODULE_DIR$/agent" />
         <option value="$MODULE_DIR$/algorithm" />
-        <option value="$MODULE_DIR$/arm" />
-        <option value="$MODULE_DIR$/communication" />
-        <option value="$MODULE_DIR$/plot" />
-        <option value="$MODULE_DIR$/policy" />
         <option value="$MODULE_DIR$/simulator" />
       </list>
     </option>
