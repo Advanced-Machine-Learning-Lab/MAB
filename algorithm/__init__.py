@@ -1,2 +1,2 @@
-from .BaseAlgorithm import BaseAlgorithm
-from .BanditAlgorithm import BanditAlgorithm
+from algorithm.BaseAlgorithm import BaseAlgorithm
+from algorithm.BanditAlgorithm import BanditAlgorithm
