@@ -1,5 +1,8 @@
-class BaseAgent(object):
+from abc import ABC
 
-    def __init__(self, neighbour_nodes, agent_num) -> None:
-        self.neighbour_nodes = neighbour_nodes
+
+class BaseAgent(ABC):
+
+    def __init__(self, agent_num) -> None:
+        self.neighbour_nodes = None
         self.agent_num = agent_num
