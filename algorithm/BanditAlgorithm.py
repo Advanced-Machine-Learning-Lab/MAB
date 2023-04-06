@@ -4,6 +4,20 @@ import numpy as np
 from algorithm import BaseAlgorithm
 from agent import Message, MessageQueueElement
 
+"""
+Algorithm要完成大部分的工作，目前的设计是只开放update()函数。
+Simulator从agent队列中寻找最快要发生事件的agent，调用该agent的algorithm中的update()函数。
+Algorithm会根据当前agent中的Evnet类中显示此时应该要去做的事件、完成相应的动作，包括：
+    1、decision_making（为当前agent选择一个arm、pull一次、发送奖励给自己/邻居）
+    2、reward_arriving（接受自己/邻居的奖励）
+    3、message_sending（将agent自己的所有信息发送给邻居agent）
+    4、message_receiving（接受邻居发送过来的信息，如果该信息中的arm不在自己的决策子集中、丢弃该消息）
+注意，这里的设计思路是，只有事件对应的时间t==1时，这件事才会在当前去处理。
+
+BanditAlgorithm只是完成一个「示例」，仅供参考。
+Algorithm具有高度的自由，以上4种事件的「具体实现」完全取决于作者的算法设计。
+"""
+
 
 class BanditAlgorithm(BaseAlgorithm, ABC):
     def __init__(self):
@@ -49,7 +63,7 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
         # 全部执行完成后，所有标志位为1的事件、均弹出队列。
 
         while True:
-            # 检查send_msg_buf中是否由当下要发生的消息，若有，则发送消息。
+            # 检查send_msg_buf中是否有当下要发生的消息，若有，则发送消息。
             self._send_message_in_send_msg_buf()
             # 获取事件队列中t=1的事件
             appending_events = self.get_event_value_one_list()
@@ -139,7 +153,9 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
                 print(f't:{self.t}, agent:{self.agent_index} get reward:{reward} from arm:{arm_index},')
         self._update_agent_on_arm()
 
-    # 向邻居节点发送信息
+    """
+        _message_sending()向邻居节点发送信息
+    """
     def _message_sending(self):
         # 遍历当前Agent的决策集
         for arm_index in self.arms:
@@ -162,6 +178,9 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
                 print(
                     f't:{self.t}, agent:{self.agent_index} send message to agent:{neighbour_node}, link_delay:{link_delay}')
 
+    """
+        _message_receiving()接受来自邻居节点的信息
+    """
     def _message_receiving(self):
         message_list = self.receive_message(other=True)
         for message in message_list:
@@ -178,7 +197,9 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
         self._update_agent_on_arm()
         # self.set_event_value('message_receiving', 0)
 
-    # 由算法决定选择Arm的策略
+    """
+        _arm_selection()由算法决定选择Arm的策略
+    """
     def _arm_selection(self) -> int:
         # 这里以UCB为例子
         # 初始化过程，返回没有pull过的arm

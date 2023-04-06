@@ -63,6 +63,7 @@ class MABAgent(BaseAgent, BanditProblem, BanditAlgorithm, Event, Message, Router
 用于优先队列的数据结构
 agent：Final Agent
 t：该Agent最近要发生的事件的时刻
+time_stamp：该Agent进入队列的时间
 Simulator每次从队列中取出t最小的Agent
 """
 

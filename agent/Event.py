@@ -29,10 +29,12 @@ class EventPriorityQueue(PriorityQueue):
 
 class Event(object):
     def __init__(self):
-        self.event_dict = {'decision_making': EventPriorityQueue(),
-                           'reward_arriving': EventPriorityQueue(),
-                           'message_sending': EventPriorityQueue(),
-                           'message_receiving': EventPriorityQueue()}
+        self.event_dict = {
+            'decision_making': EventPriorityQueue(),
+            'reward_arriving': EventPriorityQueue(),
+            'message_sending': EventPriorityQueue(),
+            'message_receiving': EventPriorityQueue()
+        }
 
     """
         获取时间值最小的事件及时间
@@ -114,4 +116,3 @@ if __name__ == '__main__':
     ret = ev.get_event_value_one_list()
     for event_name, event_time in ret:
         print(f'event_name:{event_name}, event_time:{event_time}')
-

@@ -48,7 +48,6 @@ class BanditSimulator(Simulator):
 
     def topology(self):
         for i, agent in enumerate(self.agents):
-            # agent.addresses = self.agents
             agent.neighbour_nodes = self.neighbour_nodes[i]
 
     """
@@ -75,9 +74,7 @@ class BanditSimulator(Simulator):
             self.queue.put(AgentQueueElement(agent, next_t, time_stamp + 1))
         for agent in self.agents:
             print("-----")
-            # print(agent.arms_sample_nums)
-            print(agent.arms_mean)
-            # print("-----")
+            print(f'agent:{agent.agent_index}, mean:{agent.arms_mean}')
 
 
 if __name__ == '__main__':
