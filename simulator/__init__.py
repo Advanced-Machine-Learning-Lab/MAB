@@ -1,2 +1,1 @@
-from simulator.Simulator import Simulator
-from simulator.BanditSimulator import BanditSimulator
+from simulator.MultiAgentSimulator import MultiAgentSimulator

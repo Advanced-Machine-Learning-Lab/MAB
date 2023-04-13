@@ -2,7 +2,8 @@ from abc import ABC
 
 import numpy as np
 from algorithm import BaseAlgorithm
-from agent import Message, MessageQueueElement
+from agent import Message
+from agent.utils import MessageQueueElement
 
 """
 Algorithm要完成大部分的工作，目前的设计是只开放update()函数。
@@ -19,7 +20,7 @@ Algorithm具有高度的自由，以上4种事件的「具体实现」完全取�
 """
 
 
-class BanditAlgorithm(BaseAlgorithm, ABC):
+class MABAlgorithm(BaseAlgorithm, ABC):
     def __init__(self):
         pass
 
@@ -42,6 +43,14 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
                         5、获取各事件时间队列中的最小值，返回给simulator
         Simulator根据各agent返回的时间t、对agent进行排序。继续选择时间t最小的Agent进行update()。
     """
+
+    def get_state(self):
+        if self.t > self.round_num:
+            return 0x3f3f3f3f
+        _, near_t = self.get_nearest_event()
+        if self.send_msg_buf.top() is not None:
+            return min(self.send_msg_buf.top().t, near_t)
+        return near_t
 
     def update(self):
         # 算法初始化阶段
@@ -94,10 +103,11 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
         # 通信策略：设定为self.t == 2^n时发送一次消息
         if int(np.power(2, int(np.log2(self.t)))) == self.t:
             self.set_event_time('message_sending', 1)
-        # 找到当前最近要发生的事件的时间
-        _, near_t = self.get_nearest_event()
-        # 注意：假如事件-时间均为0，那么这里的near_t是None
-        return near_t
+        # # 找到当前最近要发生的事件的时间
+        # _, near_t = self.get_nearest_event()
+        # # 注意：假如事件-时间均为0，那么这里的near_t是None
+        # return near_t
+        return self.get_state()
 
     """
         _update_agent_on_arm()用于更新Agent获得奖励后对mean等进行更新。
@@ -169,6 +179,7 @@ class BanditAlgorithm(BaseAlgorithm, ABC):
                                                     self.arms_sample_nums[self.agent_index][arm_index])
 
                 # 消息加入等待队列中
+                # print(f'self.edges:{self.edges}, agent_index:{self.agent_index}, neighbour_node:{neighbour_node}')
                 link_delay = self.edges[self.agent_index][neighbour_node] + 1
                 mqe = MessageQueueElement(message, link_delay)
                 self.send_msg_buf.put(mqe)

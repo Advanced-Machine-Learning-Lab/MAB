@@ -2,15 +2,15 @@ import numpy as np
 from queue import PriorityQueue
 
 from agent import BaseAgent, BanditProblem, Message, Router, Event
-from algorithm import BanditAlgorithm
+from example.mab import MABAlgorithm
 
 
-class MABAgent(BaseAgent, BanditProblem, BanditAlgorithm, Event, Message, Router):
+class MABAgent(BaseAgent, BanditProblem, MABAlgorithm, Event, Message, Router):
     def __init__(self, agent_num, agent_index, arms, arm_num, arms_distribution, round_num):
         # 调用各父类的构造函数
         BaseAgent.__init__(self, agent_num)
         BanditProblem.__init__(self, arms, arm_num, round_num, arms_distribution)
-        BanditAlgorithm.__init__(self)
+        MABAlgorithm.__init__(self)
         Event.__init__(self)
         Message.__init__(self)
         Router.__init__(self)

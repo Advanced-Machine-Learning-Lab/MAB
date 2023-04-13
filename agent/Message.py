@@ -1,33 +1,9 @@
-"""
-Message类用于通信
-"""
-import heapq
 from collections import deque
-from queue import PriorityQueue
+from agent.utils import MessagePriorityQueue
 
-
-class MessagePriorityQueue(PriorityQueue):
-    def top(self):
-        if len(self.queue) > 0:
-            return self.queue[0]
-        return None
-
-    def minus(self):
-        for i in range(len(self.queue)):
-            self.queue[i].t -= 1
-        heapq.heapify(self.queue)
-
-
-class MessageQueueElement(object):
-    def __init__(self, message, t):
-        self.message = message
-        self.t = t
-
-    def __lt__(self, other):
-        return self.t < other.t
-
-    def __str__(self):
-        return f'mess:{self.message}, t:{self.t}'
+"""
+    Message类用于通信
+"""
 
 
 class Message(object):
@@ -61,7 +37,6 @@ class Message(object):
     """
 
     def _send_message_in_send_msg_buf(self):
-
         while self.send_msg_buf.top() is not None and self.send_msg_buf.top().t == 1:
             self.send_message(self.send_msg_buf.get().message)
 
