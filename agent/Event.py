@@ -1,22 +1,4 @@
-import heapq
-from queue import PriorityQueue
-
-"""
-    定义事件队列使用的优先队列
-"""
-
-
-class EventPriorityQueue(PriorityQueue):
-    def top(self):
-        if len(self.queue) > 0:
-            return self.queue[0]
-        return None
-
-    def minus(self):
-        for i in range(len(self.queue)):
-            if self.queue[i] > 1:
-                self.queue[i] -= 1
-        heapq.heapify(self.queue)
+from agent.utils import EventPriorityQueue
 
 
 """
@@ -45,7 +27,7 @@ class Event(object):
             return min([(e, self.event_dict[e].top()) for e in self.event_dict if self.event_dict[e].qsize() > 0],
                        key=lambda x: x[1])
         except ValueError:
-            return None, None
+            return None, 0x3f3f3f3f
 
     """
         获取当前标志位为1的事件
@@ -72,7 +54,7 @@ class Event(object):
     """
 
     def set_event_time(self, event, t):
-        if event not in self.event_dict or not isinstance(t, int) or t < 0:
+        if event not in self.event_dict or not isinstance(t, int):
             return
         self.event_dict[event].put(t)
 
